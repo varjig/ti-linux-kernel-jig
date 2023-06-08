@@ -25,6 +25,10 @@
 		serial6 = &main_uart6;
 		usb0 = &usb0;
 		usb1 = &usb1;
+		i2c0 = &main_i2c0;
+		i2c1 = &main_i2c1;
+		i2c2 = &main_i2c2;
+		i2c3 = &main_i2c3;
 	};
 
 
@@ -65,13 +69,11 @@
 	vdd_mmc1: regulator-3 {
 		compatible = "regulator-fixed";
 		regulator-name = "SD_power_en";
-		pinctrl-names = "default";
-		pinctrl-0 = <&vdd_mmc1_pins_default>;
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		regulator-boot-on;
 		enable-active-high;
-		gpio = <&main_gpio0 30 GPIO_ACTIVE_HIGH>;
+		gpio = <&pca9534 6 GPIO_ACTIVE_HIGH>;
 		status="okay";
 	};
 
@@ -245,7 +247,7 @@
 	mygpio1_pins_default: mygpio1-pins-default {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x01f0, PIN_INPUT, 7) /* (A18) EXT_REFCLK1.GPIO1_30 */
-/*			AM62X_IOPAD(0x0078, PIN_INPUT, 7) /* (U24) GPMC0_AD15.GPIO0_30 */		
+			AM62X_IOPAD(0x0078, PIN_INPUT, 7) /* (U24) GPMC0_AD15.GPIO0_30 */	
 			AM62X_IOPAD(0x0164, PIN_INPUT, 7) /* (AA19) RGMII2_TX_CTL.GPIO0_87 */
 			AM62X_IOPAD(0x0168, PIN_INPUT, 7) /* (AE21) RGMII2_TXC.GPIO0_88 */
 			AM62X_IOPAD(0x016c, PIN_INPUT, 7) /* (Y18) RGMII2_TD0.GPIO0_89 */
@@ -404,12 +406,6 @@
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x009c, PIN_INPUT, 3) /* (V25) GPMC0_WAIT1.UART6_RXD */
 			AM62X_IOPAD(0x0244, PIN_OUTPUT, 1) /* (C17) MMC1_SDWP.UART6_TXD */
-		>;
-	};
-	
-	vdd_mmc1_pins_default: vdd-mmc1-pins-default {
-		pinctrl-single,pins = <
-			AM62X_IOPAD(0x0078, PIN_OUTPUT, 7) /* (U24) GPMC0_AD15.GPIO0_30 */
 		>;
 	};
 
