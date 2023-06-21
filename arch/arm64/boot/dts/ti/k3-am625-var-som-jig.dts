@@ -11,7 +11,7 @@
 #include "k3-am625-var-som.dtsi"
 
 / {
-	model = "Variscite VAR-SOM-AM62 on JIG 28.5.2023";
+	model = "Variscite VAR-SOM-AM62 on JIG";
 
 	aliases {
 		ethernet0 = &cpsw_port1;
@@ -163,8 +163,6 @@
 
 &epwm1 {
 	status = "disabled";
-	pinctrl-names = "default";
-	pinctrl-0 = <&main_epwm1_pins_default>;
 };
 
 &epwm2 {
@@ -185,16 +183,19 @@
 
 &main_mcan0 {
 	status = "disabled";
-	pinctrl-names = "default";
-	pinctrl-0 = <&main_mcan0_pins_default>;
-	phys = <&transceiver1>;
 };
-
 
 &main_gpio0 {
         ti,ngpio = <92>;
 };
 
+&main_i2c0 {
+	status = "disabled";
+};
+
+&main_i2c1 {
+	status = "disabled";
+};
 
 &main_i2c2 {
 	/* GPIO expander */
@@ -229,14 +230,6 @@
 			};
 		};
 	};
-};
-
-&main_i2c1 {
-	status = "disabled";
-};
-
-&main_i2c0 {
-	status = "disabled";
 };
 
 &main_pmx0 {
@@ -281,7 +274,7 @@
 			AM62X_IOPAD(0x01b8, PIN_INPUT, 7) /* (C13) SPI0_CS1.GPIO1_16 */
 			AM62X_IOPAD(0x01d8, PIN_INPUT, 7) /* (C15) MCAN0_TX.GPIO1_24 */
 			AM62X_IOPAD(0x01dc, PIN_INPUT, 7) /* (E15) MCAN0_RX.GPIO1_25 */
-/*			AM62X_IOPAD(0x0240, PIN_INPUT, 7) /* (D17) MMC1_SDCD.GPIO1_48 */
+			AM62X_IOPAD(0x0240, PIN_INPUT, 7) /* (D17) MMC1_SDCD.GPIO1_48 */
 			
 			AM62X_IOPAD(0x0048, PIN_INPUT, 7) /* (N25) GPMC0_AD3.GPIO0_18 */
 			AM62X_IOPAD(0x004c, PIN_INPUT, 7) /* (P24) GPMC0_AD4.GPIO0_19 */
@@ -301,20 +294,6 @@
 			AM62X_IOPAD(0x0258, PIN_INPUT, 7) /* (F18) USB1_DRVVBUS.GPIO1_51 */			
 		>;
 	};
-	
-
-	main_epwm1_pins_default: main-epwm1-pins-default {
-		pinctrl-single,pins = <
-			AM62X_IOPAD(0x019c, PIN_OUTPUT, 6) /* (B18) MCASP0_AXR1.EHRPWM1_A */
-		>;
-	};
-
-	main_mcan0_pins_default: main-mcan0-pins-default {
-		pinctrl-single,pins = <
-			AM62X_IOPAD(0x1dc, PIN_INPUT, 0) /* (E15) MCAN0_RX */
-			AM62X_IOPAD(0x1d8, PIN_OUTPUT, 0) /* (C15) MCAN0_TX */
-		>;
-	};
 
 	main_mmc1_pins_default: main-mmc1-pins-default {
 		pinctrl-single,pins = <
@@ -324,7 +303,6 @@
 			AM62X_IOPAD(0x22c, PIN_INPUT, 0) /* (B21) MMC1_DAT1 */
 			AM62X_IOPAD(0x228, PIN_INPUT, 0) /* (C21) MMC1_DAT2 */
 			AM62X_IOPAD(0x224, PIN_INPUT, 0) /* (D22) MMC1_DAT3 */
-			AM62X_IOPAD(0x240, PIN_INPUT, 0) /* (D17) MMC1_SDCD */
 		>;
 	};
 
@@ -370,33 +348,10 @@
 		>;
 	};
 
-	main_spi2_pins_default: main_spi2-pins-default {
-		pinctrl-single,pins = <
-			AM62X_IOPAD(0x01b0, PIN_INPUT, 1) /* (A20) MCASP0_ACLKR.SPI2_CLK */
-			AM62X_IOPAD(0x0194, PIN_OUTPUT, 1) /* (B19) MCASP0_AXR3.SPI2_D0 */
-			AM62X_IOPAD(0x0198, PIN_INPUT, 1) /* (A19) MCASP0_AXR2.SPI2_D1 */
-			AM62X_IOPAD(0x01ac, PIN_OUTPUT, 7) /* (E19) MCASP0_AFSR.GPIO1_13 */
-		>;
-	};
-
 	main_uart0_pins_default: main-uart0-pins-default {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x1c8, PIN_INPUT, 0) /* (D14) UART0_RXD */
 			AM62X_IOPAD(0x1cc, PIN_OUTPUT, 0) /* (E14) UART0_TXD */
-		>;
-	};
-
-	main_uart2_pins_default: main-uart2-pins-default {
-		pinctrl-single,pins = <
-			AM62X_IOPAD(0x005c, PIN_INPUT_PULLUP, 2) /* (R24) GPMC0_AD8.UART2_RXD */
-			AM62X_IOPAD(0x0060, PIN_OUTPUT, 2) /* (R25) GPMC0_AD9.UART2_TXD */
-		>;
-	};
-
-	main_uart6_pins_default: main-uart6-pins-default {
-		pinctrl-single,pins = <
-			AM62X_IOPAD(0x009c, PIN_INPUT, 3) /* (V25) GPMC0_WAIT1.UART6_RXD */
-			AM62X_IOPAD(0x0244, PIN_OUTPUT, 1) /* (C17) MMC1_SDWP.UART6_TXD */
 		>;
 	};
 
@@ -409,17 +364,6 @@
 
 &main_spi2 {
 	status = "disabled";
-	pinctrl-names = "default";
-	pinctrl-0 = <&main_spi2_pins_default>;
-	ti,pindir-d0-out-d1-in = <1>;
-	cs-gpios = <&main_gpio1 13 GPIO_ACTIVE_HIGH>;
-
-	spidev@0 {
-		compatible = "var,spidev";
-		reg = <0>;
-		spi-max-frequency = <12000000>;
-		status = "disabled";
-	};
 };
 
 &main_uart0 {
@@ -433,8 +377,6 @@
 };
 
 &main_uart2 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&main_uart2_pins_default>;
 	status = "disabled";
 };
 
@@ -447,8 +389,6 @@
 };
 
 &main_uart6 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&main_uart6_pins_default>;
 	status = "disabled";
 };
 
@@ -512,6 +452,7 @@
 	ti,driver-strength-ohm = <50>;
 	disable-wp;
 	non-removable;
+	ti,fails-without-test-cd;
 	status="okay";
 };
 
