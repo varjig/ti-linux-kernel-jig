@@ -443,6 +443,11 @@
 	};
 };
 
+&sdhci0 {
+	ti,otap-del-sel-legacy = <0x5>;
+	ti,otap-del-sel-mmc-hs = <0x5>;
+};
+
 &sdhci1 {
 	/* SD Card */
 	vmmc-supply = <&vdd_mmc1>;
