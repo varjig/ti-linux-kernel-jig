@@ -934,14 +934,18 @@ static int dp83867_config_init(struct phy_device *phydev)
 
 static int dp83867_phy_reset(struct phy_device *phydev)
 {
-	int err;
+	int err,val;
 
 	err = phy_write(phydev, DP83867_CTRL, DP83867_SW_RESET);
 	if (err < 0)
 		return err;
 
-	usleep_range(10, 20);
-
+	/* Poll until the reset bit clears (50ms per retry == 0.6 sec) */
+	err = read_poll_timeout(phy_read, val, !(val & BMCR_RESET), 
+				50000, 600000, true, phydev, MII_BMCR); 
+	if (err)
+		return err;
+	
 	err = phy_modify(phydev, MII_DP83867_PHYCTRL,
 			 DP83867_PHYCR_FORCE_LINK_GOOD, 0);
 	if (err < 0)
