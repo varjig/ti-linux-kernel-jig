@@ -165,6 +165,8 @@
 		compatible = "ethernet-phy-ieee802.3-c22";
 		reset-gpios = <&main_gpio0 46 GPIO_ACTIVE_LOW>;
 		enet-phy-lane-no-swap;
+		ti,min-output-impedance;
+		bootph-all;
 		reset-assert-us = <10000>;
 		reset-deassert-us = <100000>;
 	};
