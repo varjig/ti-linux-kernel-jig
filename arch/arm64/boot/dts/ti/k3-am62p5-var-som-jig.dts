@@ -248,6 +248,22 @@
 		#gpio-cells = <2>;
 		status = "okay";
 	};
+
+	gpio@21 {
+		compatible = "nxp,pca9534";
+		reg = <0x21>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		status = "okay";
+	};
+
+	gpio@24 {
+		compatible = "nxp,pca9534";
+		reg = <0x24>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		status = "okay";
+	};
 };
 
 &main_mcan0 {
