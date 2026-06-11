@@ -659,6 +659,11 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
 			  MIPI_DSI_MODE_VIDEO_NO_HSA | MIPI_DSI_MODE_NO_EOT_PACKET;
 
 	ret = devm_mipi_dsi_attach(dev, dsi);
+	if (ret == -ENOTSUPP) {
+		dsi->mode_flags &= ~MIPI_DSI_MODE_VIDEO_BURST;
+		ret = devm_mipi_dsi_attach(dev, dsi);
+	}
+
 	if (ret < 0) {
 		dev_err(dev, "failed to attach dsi to host: %d\n", ret);
 		return ret;
