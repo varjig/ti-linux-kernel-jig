@@ -79,7 +79,7 @@
 		regulator-max-microvolt = <3300000>;
 		regulator-boot-on;
 		enable-active-high;
-		gpio = <&pca9534 6 GPIO_ACTIVE_HIGH>;
+		gpio = <&pca9534_20 6 GPIO_ACTIVE_HIGH>;
 		bootph-all;
 	};
 
@@ -153,7 +153,7 @@
 		status = "disabled";
 		reg = <5>;
 		compatible = "ethernet-phy-id0283.bc30";
-		reset-gpios = <&pca9534 5 GPIO_ACTIVE_LOW>;
+		reset-gpios = <&pca9534_20 5 GPIO_ACTIVE_LOW>;
 		reset-assert-us = <10000>;
 		reset-deassert-us = <100000>;
 	};
@@ -241,28 +241,56 @@
 	};
 
 	/* GPIO expander */
-	pca9534: gpio@20 {
+	pca9534_20: gpio@20 {
 		compatible = "nxp,pca9534";
 		reg = <0x20>;
 		gpio-controller;
 		#gpio-cells = <2>;
 		status = "okay";
+		gpio-line-names =
+			"GPMC_OSPIn__MMC2",
+			"TP_CAM_EN",
+			"no_AC",
+			"MRn",
+			"RGB_LTCH_OEn",
+			"LVDS0n_LVDS1",
+			"SD_PWR_EN",
+			"BOOT_SEL";
+
 	};
 
-	gpio@21 {
+	pca9534_21: gpio@21 {
 		compatible = "nxp,pca9534";
 		reg = <0x21>;
 		gpio-controller;
 		#gpio-cells = <2>;
 		status = "okay";
+		gpio-line-names =
+			"no_COEXn__COEX",
+			"no_RFCTRLn__RFCTRL",
+			"no_LD0n__LD0",
+			"LVDS12n__LVDS3",
+			"EXP_3V3_P4",
+			"",
+			"",
+			"";
 	};
 
-	gpio@24 {
+	pca9534_24: gpio@24 {
 		compatible = "nxp,pca9534";
 		reg = <0x24>;
 		gpio-controller;
 		#gpio-cells = <2>;
 		status = "okay";
+		gpio-line-names =
+			"COEX_SOUT_1V8",
+			"COEX_SIN_1V8",
+			"BRDG_DSI_LVDS_EN",
+			"",
+			"RF_CNTL0_1V8",
+			"RF_CNTL1_1V8",
+			"RF_CNTL3_1V8",
+			"RF_CNTL4_1V8";
 	};
 };
 
@@ -622,6 +650,14 @@
 			};
 		};
 	};
+};
+
+&main_gpio0 {
+	#address-cells = <0>;
+};
+
+&main_gpio1 {
+	#address-cells = <0>;
 };
 
 /* mcu_gpio0 and mcu_gpio_intr are reserved for mcu firmware usage */
